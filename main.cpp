@@ -1,3 +1,9 @@
+/// Algoritmul simplifica sirul introdus de catre utilizator.
+/// Fiecare formula compusa este simplificata intr-o "propozitie atomica", in mod recursiv, daca este valida.
+/// Daca nu este valida, atunci sirul nu este o formula bine formata.
+/// Daca sirul este o formula bine formata, rezultatul de sfarsit va fi o singura litera.
+
+
 #include <iostream>
 #include <string.h>
 
@@ -50,10 +56,10 @@ void Simplifica(int i)
             Simplifica(i + aux + 1);
 
         if (isAtom(i + aux)) v[vk++] = 0;
-        if (isNega(i + aux)) v[vk++] = 1;
-        if (isJnct(i + aux)) v[vk++] = 2;
-        if (isImpl(i + aux)) { v[vk++] = 2; aux += 1;}
-        if (isEchi(i + aux)) { v[vk++] = 2; aux += 2;}
+        if (isNega(i + aux)) v[vk++] = 1;               // in v construim secventa codificata pentru formula compusa
+        if (isJnct(i + aux)) v[vk++] = 2;               // exemplu: (A => B) este [0, 2, 0] (valid)
+        if (isImpl(i + aux)) { v[vk++] = 2; aux += 1;}  // exemplu: (-A) este [1, 0] (valid)
+        if (isEchi(i + aux)) { v[vk++] = 2; aux += 2;}  // exemplu: (--A=>) este [1, 1, 0, 2] (invalid)
 
         aux++;
     }
@@ -64,14 +70,14 @@ void Simplifica(int i)
     if ((v[0] == 0 && v[1] == 2 && v[2] == 0 && vk == 3) || // adica e de forma: "A [conector] B"
         (v[0] == 1 && v[1] == 0 && vk == 2)) // adica e de forma: "[negatie] A"
     {
-        // algoritm de simplificare a formulei complexe
+        // algoritm de simplificare a formulei complexe (se sterge continutul parantezei simplificate, si se inlocuieste cu P (fbf)
         for (int j = 0; j + aux < sir_k; j++)
             sir[i + j] = sir[i + aux + j + 1];
 
         sir_k -= (aux + 1);
 
         sir[i - 1] = 'P';
-        AfisareSir();
+        AfisareSir();  // se afiseaza sirul pentru ca utilizatorul sa vada fiecare etapa de simplificare al sirului
     }
     else
     {
@@ -94,6 +100,6 @@ int main()
             Simplifica(1);
 
     if (valid && sir_k == 1 && isAtom(0))
-        cout << "\n\nEste sir valid!";
-    else cout << "\n\nNu este sir valid!";
+        cout << "\n\nEste formula bine formata!";
+    else cout << "\n\nNu este formula bine formata!";
 }
