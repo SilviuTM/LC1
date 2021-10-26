@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1635248261 source:c:\users\silviu\documents\codeblocks\lc1\main.cpp
+	<iostream>
+	<string.h>
+
