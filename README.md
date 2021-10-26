@@ -9,6 +9,6 @@ Logica Computationala - Tema 1
 
 // Un asemenea compilator C++ este: https://www.onlinegdb.com/online_c++_compiler (in timpul executiei, fereastra consolei trebuie marita pentru a se vedea tot textul)
 
-// Proiectul se poate descarca in integime, si rula, folosind Code::Blocks.
+// Proiectul se poate descarca in intregime, si rula, folosind Code::Blocks.
 
 Program creat de: Tudor Mihai Silviu - Informatica Aplicata - Anul 1
