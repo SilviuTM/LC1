@@ -38,7 +38,6 @@ bool isEchi(int id)
     return (sir[id] == '<' && sir[id + 1] == '=' && sir[id + 2] == '>');
 }
 
-
 void AfisareSir()
 {
     cout << endl;
@@ -56,10 +55,11 @@ void Simplifica(int i)
             Simplifica(i + aux + 1);
 
         if (isAtom(i + aux)) v[vk++] = 0;
-        if (isNega(i + aux)) v[vk++] = 1;               // in v construim secventa codificata pentru formula compusa
-        if (isJnct(i + aux)) v[vk++] = 2;               // exemplu: (A => B) este [0, 2, 0] (valid)
-        if (isImpl(i + aux)) { v[vk++] = 2; aux += 1;}  // exemplu: (-A) este [1, 0] (valid)
-        if (isEchi(i + aux)) { v[vk++] = 2; aux += 2;}  // exemplu: (--A=>) este [1, 1, 0, 2] (invalid)
+        else if (isNega(i + aux)) v[vk++] = 1;               // in v construim secventa codificata pentru formula compusa
+        else if (isJnct(i + aux)) v[vk++] = 2;               // exemplu: (A => B) este [0, 2, 0] (valid)
+        else if (isImpl(i + aux)) { v[vk++] = 2; aux += 1;}  // exemplu: (-A) este [1, 0] (valid)
+        else if (isEchi(i + aux)) { v[vk++] = 2; aux += 2;}  // exemplu: (--A=>) este [1, 1, 0, 2] (invalid)
+        else valid = false;     // altfel, exista simbol nedefinit (formula invalida)
 
         aux++;
     }
@@ -88,14 +88,17 @@ void Simplifica(int i)
 
 int main()
 {
-    cout << "Definim:\n [-] - Negatie\n [&] - Conjunctie\n [|] - Disjunctie\n [=>] - Implicatie\n [<=>] - Echivalenta\n";
-    cout << "\n!CARACTERUL ' '[spatiu] NU ESTE SUPORTAT!\n\n";
-    cout << "Exemplu: ((-A)=>(B&C))\n";
+    cout << "Definim:\n [-] - Negatie\n [&] - Conjunctie\n [|] - Disjunctie\n [=>] - Implicatie\n [<=>] - Echivalenta\n ";
+    cout << "[(],[)] - Paranteze\n ";
+    cout << "[A, B, C, ..., Z] - Propozitii Atomice\n\n";
+    cout << "ORICE CARACTER NEDEFINIT INVALIDEAZA SIRUL!!!\n\n";
+    cout << "Exemplu valid: ((-A)=>(B&C))\n";
     cout << "\nIntroduceti sirul de caractere: ";
 
     cin >> sir;
     sir_k = strlen(sir);
 
+    //executare algoritm
     if (sir[0] == '(')
             Simplifica(1);
 
